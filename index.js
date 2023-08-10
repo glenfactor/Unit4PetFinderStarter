@@ -2,20 +2,16 @@
 const express = require('express');
 const app = express();
 
-//import path module
+// import path module
 const path = require('path');
 
 // import the pets array from data.js
 const pets = require('./data');
 
 const PORT = 8080;
+
 // Serve static files from the 'public' folder
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Route for serving the React application
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'pet-finder-client', 'build', 'index.html'));
-  });
 
 // GET - / - returns homepage
 app.get('/', (req, res) => {
@@ -32,7 +28,6 @@ app.get('/api', (req, res) => {
 // When a GET is sent to the /api/v1/pets endpoint
 // Get all the pets from the pets array
 // Send the pets array as a JSON response
-
 app.get('/api/v1/pets', (req, res) => {
     try {
         res.json(pets); // Send the pets array as a JSON response
@@ -47,7 +42,6 @@ app.get('/api/v1/pets', (req, res) => {
 // Extract the 'name' parameter from the request.
 // Retrieve pets from the database where name matches the parameter.
 // Return a JSON response with the matching pets.
-
 app.get('/api/v1/pets/:name', (req, res) => {
     // get the name from the request
     try {
@@ -70,12 +64,11 @@ app.get('/api/v1/pets/:name', (req, res) => {
 // Extract the 'owner' query parameter from the request.
 // Retrieve pets from the database where owner's name matches the parameter.
 // Return a JSON response with the pets owned by the specified owner.
-
 app.get('/api/v1/pets/owner', (req, res) => {
     // get the owner from the request
     try {
         const owner = req.query.owner;
-        const petsByOwner = pets.filter(pet => pet.owner === owner); // Find pets by owner
+        const petsByOwner = pets.filter(pet =>pet.owner === owner); // Find pets by owner
 
         if (petsByOwner.length > 0) {
             res.json(petsByOwner); // Send the pets as a JSON response
